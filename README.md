@@ -1,5 +1,5 @@
 # IE-Terminal
-
+一个模仿微信的完整React-Native项目，使用WebSocket实现后台数据传输。
 
 ## TODO:
 1. 数据库表单设计
@@ -7,7 +7,7 @@
 3. 最近聊天记录数据存储
 
 
-## installation
+## Installation
 1. npm install
 2. React-Native-Webview-Crosswalk项目配置[GitHub](https://github.com/jordansexton/react-native-webview-crosswalk)
 3. React-Native-Splashscreen[GitHub](https://github.com/remobile/react-native-splashscreen)
@@ -26,3 +26,6 @@
 
 ### 可能遇到问题：
 1. Passing keys to children in React.js [stackoverflow](http://stackoverflow.com/questions/30465651/passing-keys-to-children-in-react-js)
+
+### 参考资料
+1. [awesome-react-native](https://github.com/jondot/awesome-react-native)
