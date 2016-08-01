@@ -132,6 +132,7 @@ dependencies {
     compile (name: "xwalk_core_library-18.48.477.13", ext: "aar")    // <--- add this line
     compile project(':CrosswalkWebView')                             // <--- add this line
     compile project(':react-native-splashscreen') 
+    compile project(':react-native-sqlite-storage')
     
 }
 
