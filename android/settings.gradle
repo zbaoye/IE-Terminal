@@ -1,0 +1,8 @@
+rootProject.name = 'Terminal'
+
+include ':app'
+include ':CrosswalkWebView', ':app'
+project(':CrosswalkWebView').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-crosswalk')
+
+include ':react-native-splashscreen'
+project(':react-native-splashscreen').projectDir = new File(rootProject.projectDir, '../node_modules/@remobile/react-native-splashscreen/android')

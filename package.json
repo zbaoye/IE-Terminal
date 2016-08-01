@@ -1,0 +1,21 @@
+{
+  "name": "Terminal",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "@remobile/react-native-splashscreen": "1.0.3",
+    "alt": "0.18.5",
+    "react": "15.2.1",
+    "react-addons-pure-render-mixin": "15.2.1",
+    "react-native": "0.28.0",
+    "react-native-action-button": "1.0.3",
+    "react-native-android-statusbar": "0.1.2",
+    "react-native-material-design": "0.3.6",
+    "react-native-material-kit": "0.3.2",
+    "react-native-webview-android": "1.1.6",
+    "react-native-webview-crosswalk": "file:./node_modules/react-native-webview-crosswalk"
+  }
+}
