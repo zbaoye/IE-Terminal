@@ -4,7 +4,7 @@ import Navigate from './src/utils/Navigate';
 import { Toolbar } from './src/components';
 import Navigation from './src/scenes/Navigation';
 import Welcome from './src/scenes/Welcome';
-
+import io from 'socket.io-client/socket.io';
 
 class awesome extends Component {
 
@@ -15,6 +15,7 @@ class awesome extends Component {
 
 	constructor(props) {
 		super(props);
+		this.socket = io('10.10.10.124:3000', {jsonp: false});
 		this.state = {
 			drawer: null,
 			navigator: null
@@ -73,7 +74,7 @@ class awesome extends Component {
                                 <View
                                     style={styles.scene}
                                     showsVerticalScrollIndicator={false}>
-                                	<route.component title={route.title} path={route.path} navigator={this.state.navigator} {...route.props} />
+                                	<route.component title={route.title} path={route.path} navigator={this.state.navigator} socket={this.socket} {...route.props} />
                                 </View>
                             );
                         }

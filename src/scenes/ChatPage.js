@@ -11,11 +11,8 @@ export default class ChatPage extends React.Component {
 
 	constructor(props) {
     super(props);
-    this.socket = io('10.10.10.124:3000', {jsonp: false});
-    console.log(this.socket);
-    this.socket.on('connect', () => {
-      console.log('connected!');
-    });
+    this.socket = props.socket;
+
     this.state = {
         curText: null,
         keyCount:4,
@@ -47,18 +44,16 @@ export default class ChatPage extends React.Component {
 
 	updateText(text) {
     
+    if (this.socket.connected) {
+      this.socket.emit('public message',text);
+      this.socket.on('public message',function(msg){
+        console.log(msg);
+      });
+    }else{
+      console.log('无网络');
+    }
 
-    //console.log(this.socket);
-
-    
-    console.log(this.socket.id);
-    this.socket.emit('public message',text);
-    console.log(text);
-    this.socket.on('public message',function(msg){
-      console.log(msg);
-    });
-
-
+  
 
     var timestamp = Date.parse(new Date()); 
 
