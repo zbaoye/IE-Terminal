@@ -5,7 +5,7 @@ import { Toolbar } from './src/components';
 import Navigation from './src/scenes/Navigation';
 import Welcome from './src/scenes/Welcome';
 import io from 'socket.io-client/socket.io';
-
+import CrosswalkWebView from 'react-native-webview-crosswalk';
 class awesome extends Component {
 
 	static childContextTypes = {
@@ -40,6 +40,7 @@ class awesome extends Component {
 			navigator: new Navigate(navigator)
 		});
 	};
+
 
 	render() {
 		const { drawer, navigator } = this.state;

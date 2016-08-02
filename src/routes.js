@@ -15,7 +15,7 @@ import ChatPage from './scenes/ChatPage';
 export default {
 
     welcome: {
-
+        initialRoute: true,
         title: 'GeoVis',
         component: Welcome,//require().default,
         children: {
@@ -26,7 +26,6 @@ export default {
         }
     },
     messages: {
-        initialRoute: true,
         title: 'Messages',
         component: Messages//require('./scenes/Avatars').default
     },

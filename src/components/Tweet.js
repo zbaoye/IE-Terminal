@@ -15,7 +15,6 @@ class Tweet extends React.Component {
 
   goToChat() {
     this.props.goToChat(this.props);
-    //console.log(this.props);
   }
 
   render() {
@@ -28,7 +27,7 @@ class Tweet extends React.Component {
     return (
       <TouchableHighlight underlayColor="transparent" onPress={this.goToChat}>
         <View style={styles.tweetContainer}>
-          <Image source={{ uri: user.avatar }} style={styles.avatar} />
+          <Image source={require('./../img/avatars/1.png')} style={styles.avatar} />
           <View style={styles.rightContainer}>
             <View style={styles.userContainer}>
               <Text style={styles.name}>{user.username}</Text>

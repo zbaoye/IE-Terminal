@@ -16,16 +16,16 @@ export default class Messages extends React.Component {
                 key: 1,
                 text: 'The React Native Router is awesome!',
                 user: {
-                  username: 'Tristan Edwards',
-                  avatar: 'https://pbs.twimg.com/profile_images/497658257276538880/KrPEaVDu_400x400.jpeg',
+                  username: '导调员1',
+                  avatar: './../img/avatars/1.png',
                 },
               },
               {
                 key: 2,
                 text: 'Hello world!',
                 user: {
-                  username: 'Leonard Pauli',
-                  avatar: 'https://pbs.twimg.com/profile_images/436581173871927296/txEzObgk_400x400.jpeg',
+                  username: '导调员2',
+                  avatar: './../img/avatars/2.png',
                 },
               },
             ],
