@@ -49,9 +49,9 @@ export default class Navigation extends Component {
                         icon: 'face',
                         value: '通讯录',
                         label: '12',
-                        active: route === 'avatars',
-                        onPress: () => this.changeScene('avatars'),
-                        onLongPress: () => this.changeScene('avatars')
+                        active: route === 'contacts',
+                        onPress: () => this.changeScene('contacts'),
+                        onLongPress: () => this.changeScene('contacts')
                     }, {
                         icon: 'label',
                         value: '消息中心',
@@ -61,11 +61,11 @@ export default class Navigation extends Component {
                         onLongPress: () => this.changeScene('messages')
                     }, {
                         icon: 'check-box',
-                        value: '文书处理',
+                        value: '登录',
                         label: '10',
-                        active: route === 'checkboxes',
-                        onPress: () => this.changeScene('checkboxes'),
-                        onLongPress: () => this.changeScene('checkboxes')
+                        active: route === 'login',
+                        onPress: () => this.changeScene('login'),
+                        onLongPress: () => this.changeScene('login')
                     }, {
                         icon: 'label',
                         value: '信息识别',

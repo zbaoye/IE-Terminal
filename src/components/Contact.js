@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native';
 
-class Tweet extends React.Component {
+class Contact extends React.Component {
   constructor(props) {
     super(props);
     this.goToChat = this.goToChat.bind(this);
@@ -21,8 +21,7 @@ class Tweet extends React.Component {
     const {
       key,
       username,
-      avatar,
-    } = this.props.tweetData;
+    } = this.props.contactData;
 
     return (
       <TouchableHighlight underlayColor="transparent" onPress={this.goToChat}>
@@ -41,6 +40,8 @@ class Tweet extends React.Component {
 
 const propTypes = {
   goToChat: PropTypes.func.isRequired,
+  username: PropTypes.object,
+  avatar  : PropTypes.object,
 };
 
 const styles = StyleSheet.create({
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
   },
 });
 
-Tweet.propTypes = propTypes;
+Contact.propTypes = propTypes;
 
 
-export default Tweet;
+export default Contact;

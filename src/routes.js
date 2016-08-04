@@ -11,7 +11,9 @@ import Subheaders from './scenes/Subheaders';
 import Themes from './scenes/Themes';
 import Messages from './scenes/Messages';
 import ChatPage from './scenes/ChatPage';
-
+import Contacts from './scenes/Contacts';
+import Login from './scenes/Login';
+import Register from './scenes/Register';
 export default {
 
     welcome: {
@@ -33,9 +35,21 @@ export default {
         title: 'ChatPage',
         component: ChatPage//require('./scenes/Avatars').default
     },
+    login:{
+        title:'Login',
+        component:Login
+    },
+    register:{
+        title:'Register',
+        component:Register
+    },
     avatars: {
         title: 'Avatars',
         component: Avatars//require('./scenes/Avatars').default
+    },
+    contacts:{
+        title:'Contacts',
+        component:Contacts
     },
 
     buttons: {

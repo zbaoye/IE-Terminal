@@ -1,35 +1,49 @@
 import React, { Component , PropTypes} from 'react';
 import { ScrollView, View, Image ,TextInput,Navigator} from 'react-native';
 import { Button, Avatar,  COLOR ,IconToggle,Icon } from 'react-native-material-design';
-import Tweet from '../components/Tweet';
+import Contact from '../components/Contact';
 import ChatPage from './ChatPage'
 import Navigate from '../utils/Navigate';
-//import SQLite from '../utils/sqlite';
+import SQLite from '../utils/sqlite';
 
 export default class Messages extends React.Component {
-    
+    //var sqlite = null;
     constructor(props) {
         super(props);
-        //var sqlite = new SQLite('Terminal');
+        sqlite = new SQLite('Terminal');
         //sqlite.createUsersTable();
-        //sqlite.insertUsersTable('S003','003','333333','./img.3.png');
-        //sqlite.queryUsersTable();
+        //sqlite.insertUsersTable('S003','导调员003','333333','./img.3.png');
+        //var resultSet = sqlite._queryUsersTable();
         this.state = {
             route: null,
             text : "",
-            tweets: [
-              {
-                key: 1,
-                username: '导调员1',
-                avatar: './../img/avatars/1.png',
-              },
-              {
-                key: 2,
-                username: '导调员7',
-                avatar: './../img/avatars/2.png',
-              },
-            ],
+            contacts: null,
         };
+    }
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    fetchData(){
+        that = this;
+        sqlite.queryUsersTable().then(()=>{
+            //console.log(sqlite.getResult())
+            let result = sqlite.getResult();
+            let length = result.rows.length;
+            var json=[];
+            for (let i = 0 ; i<length ; i++){
+                let a = {
+                    key : result.rows.item(i).username,
+                    username : result.rows.item(i).username,
+                    avatar : result.rows.item(i).avatar,
+                };
+                json.push(a);
+            }
+            this.setState({
+                contacts : json,
+            });
+        });
+           
     }
 
     changeScene = (path, name) => {
@@ -45,20 +59,22 @@ export default class Messages extends React.Component {
         const {
             key,
             username,
-            avatar
-        } = props.tweetData;
+        } = props.contactData;
+        //console.log(key);
         if(navigator) {
             navigator.to('chatpage',username,{key:key});
         }
     }
 
     render() {  
-        
         const  navigator  = this.props.navigator;
-        const Tweets = this.state.tweets.map((tweetData) => {
-          return <Tweet key={tweetData.key} tweetData={tweetData} navigator={navigator} goToChat={this.goToChat} />;
-        });
-
+        if (this.state.contacts!=null){
+            var Contacts = this.state.contacts.map((contactData) => {
+                return <Contact key={contactData.key} contactData={contactData} navigator={navigator} goToChat={this.goToChat} />;
+            });
+        }else{
+            var Contacts = null;
+        }
         return (
             <ScrollView style={styles.body}>
                 <View style={styles.searchBar}>
@@ -80,10 +96,8 @@ export default class Messages extends React.Component {
                     style={{height:2,backgroundColor:'#f4f4f4'}}
                 />
                 <View>  
-                    {Tweets}
+                    {Contacts}
                 </View>
-
-                
 
             </ScrollView>
         );

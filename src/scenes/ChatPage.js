@@ -21,26 +21,34 @@ export default class ChatPage extends React.Component {
             key: 1,
         		timestamp : 1469605874,
         		type : 0,
-        		text : "测试语句1"
+        		text : "洞拐洞拐，收到请回答！"
         	},{
             key:2,
 		        timestamp : 1469605974,
         		type : 1,
-        		text : "测试语句2" 
+        		text : "洞幺洞幺，洞拐收到！" 
         	},{
             key:3,
         		timestamp : 1469615874,
         		type : 0,
-        		text : "测试语句3"
+        		text : "洞拐洞拐，晚上吃什么？"
         	},{
             key:4,
         		timestamp : 1469705874,
         		type : 1,
-        		text : "测试语句4"
+        		text : "洞幺洞幺，麻辣香锅。"
         	}
         ]
     };
   }
+
+  // login(){
+  //   {
+  //     id:
+  //     password:
+  //   }
+  // }
+
 
 	updateText(text) {
     
@@ -53,7 +61,6 @@ export default class ChatPage extends React.Component {
       console.log('无网络');
     }
 
-  
 
     var timestamp = Date.parse(new Date()); 
 
@@ -100,14 +107,13 @@ export default class ChatPage extends React.Component {
           			</View>
           		);
           	}
-          	
         });
         return (
-        		<ScrollView ref='scroll' scrollEnabled={false}>
-            	<ScrollView style = {styles.content}>
+        		<ScrollView ref='scroll' scrollEnabled={false} style={{backgroundColor:'#EBEBEB'}}>
+            	<ScrollView style = {styles.scrollContent}>
             	   	{messages}
             	</ScrollView>
-            	<View style={styles.footer}>
+            	<View style={styles.footerView}>
             	  <TextInput style = {styles.inputText}
                   numberOfLines={1}
                   underlineColorAndroid={'transparent'}
@@ -127,9 +133,11 @@ export default class ChatPage extends React.Component {
 
 const styles = {
 	
-	content:{
+ 
+
+	scrollContent:{
 		flex: 1,
-		height:460,
+		height:height-100-40,
 		backgroundColor:'#EBEBEB',
 		marginLeft:5,
     marginRight:5,
@@ -170,11 +178,11 @@ const styles = {
     	height: 50,
     	borderRadius: 4,
   	},
-	footer:{
+	footerView:{
 		flexDirection: 'row',
 	},
 	inputText: {
-		width:290,
+		width:width-80,
 		backgroundColor:'#F4F4F6',
 		height:40,
         alignItems: 'center',

@@ -24,6 +24,14 @@
 
 ## Pitfalls
 1. Passing keys to children in React.js [stackoverflow](http://stackoverflow.com/questions/30465651/passing-keys-to-children-in-react-js)
-2. 
+2. TODO
+
+## Others
+不知道怎么分类。囧
+### Java于JavaScript通信
+由于项目需求，需要内嵌一个类似WebView以复用以前项目，CrossWalk基于Chromium
+
+
+### 
 ## Reference
 1. [awesome-react-native](https://github.com/jondot/awesome-react-native)
