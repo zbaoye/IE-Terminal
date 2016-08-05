@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import  {  View, Text ,StyleSheet,TextInput, Image,TouchableWithoutFeedback} from 'react-native';
+import  {  View, Text ,StyleSheet,TextInput, Image,TouchableWithoutFeedback,ToastAndroid,} from 'react-native';
 import { Button, Subheader, COLOR } from 'react-native-material-design';
 
 import AppStore from '../stores/AppStore';
@@ -16,22 +16,37 @@ export default class Register extends React.Component {
           fetch('http://10.10.10.124:3000/register', {
             method: 'POST',
             headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              username: username,
-              pwd: pwd,
+              id: username,
+              password: pwd,
             })
-          }).then(()=>{console.log('sucess')});
+          }).then((response)=>{
+            console.log(response);
+            response.json().then((json)=>{
+              console.log(json);
+              
+              const navigator = this.props.navigator;
+              navigator.to('welcome');
+            }).catch(function(e) {
+              ToastAndroid.show('数据解析失败', ToastAndroid.SHORT);
+            });
+          }).catch(function(e) {
+            ToastAndroid.show('数据解析失败', ToastAndroid.SHORT);
+          });
+          
         }else{
-          console.log('密码输入不符');
+          //console.log('密码输入不符');
+          ToastAndroid.show('密码输入不符，请重新输入', ToastAndroid.SHORT);
         }
-        const navigator = this.props.navigator;
-        navigator.to('login');
+        
     }
     render() {
         
         return (
-            <View style={{backgroundColor:'#f4f4f4',flex:1}}>
+            <View style={{backgroundColor:'#f4f4f4',flex:1,padding:10}}>
                 <Image
                   style={styles.style_image}
                   source={require('../img/avatars/1.png')}/>
@@ -41,9 +56,9 @@ export default class Register extends React.Component {
                   ref='username'
                   autoFocus={true}
                   underlineColorAndroid={'transparent'}
-                  textAlign='center'/>
+                />
                 <View
-                     style={{height:1,backgroundColor:'#f4f4f4'}}
+                     style={{height:5,backgroundColor:'#f4f4f4'}}
                  />
                  <TextInput style={styles.style_pwd_input}
                    placeholder='请输入密码'
@@ -51,6 +66,9 @@ export default class Register extends React.Component {
                    ref='pwd'
                    secureTextEntry={true}
                    textAlign='center'/>
+                <View
+                     style={{height:1,backgroundColor:'#f4f4f4'}}
+                />
                 <TextInput style={styles.style_pwd_input}
                    placeholder='请再次输入密码'
                    numberOfLines={1}
@@ -59,7 +77,7 @@ export default class Register extends React.Component {
                    textAlign='center'/>
   
                 <TouchableWithoutFeedback onPress={() => this.register()}>  
-                    <View style={styles.style_view_commit}>  
+                    <View style={styles.style_view_register}>  
                         <Text style={{color:'#fff'}}>
                             注册
                         </Text> 
@@ -79,36 +97,26 @@ const styles = StyleSheet.create({
     alignSelf:'center',
   },
   style_user_input:{
+      textAlign:'center',
       backgroundColor:'#fff',
       marginTop:10,
-      height:35,
+      height:40,
+      padding:1,
   },
    style_pwd_input:{
+      textAlign:'center',
       backgroundColor:'#fff',
-      height:35,
+      height:40,
+      padding:1,
   },
-   style_view_commit:{
+   style_view_register:{
       marginTop:15,
-      marginLeft:10,
-      marginRight:10,
+      marginLeft:15,
+      marginRight:15,
       backgroundColor:'#63B8FF',
-      height:35,
+      height:40,
       borderRadius:5,
       justifyContent: 'center',
       alignItems: 'center',
   },
-  style_view_unlogin:{
-    fontSize:12,
-    color:'#63B8FF',
-    marginLeft:10,
-  },
-  style_view_register:{
-    fontSize:12,
-    color:'#63B8FF',
-    marginRight:10,
-    alignItems:'flex-end',
-    flex:1,
-    flexDirection:'row',
-    textAlign:'right',
-  }
 });

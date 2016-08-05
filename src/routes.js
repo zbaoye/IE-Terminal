@@ -17,7 +17,6 @@ import Register from './scenes/Register';
 export default {
 
     welcome: {
-        initialRoute: true,
         title: 'GeoVis',
         component: Welcome,//require().default,
         children: {
@@ -36,6 +35,7 @@ export default {
         component: ChatPage//require('./scenes/Avatars').default
     },
     login:{
+        initialRoute: true,
         title:'Login',
         component:Login
     },

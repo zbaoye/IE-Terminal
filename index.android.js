@@ -18,7 +18,8 @@ class awesome extends Component {
 		this.socket = io('10.10.10.124:3000', {jsonp: false});
 		this.state = {
 			drawer: null,
-			navigator: null
+			navigator: null,
+			token: null
 		};
 	}
 
@@ -69,19 +70,30 @@ class awesome extends Component {
                         }}
 					ref={(navigator) => { !this.state.navigator ? this.setNavigator(navigator) : null }}
 					renderScene={(route) => {
+                        //console.log(route);
                         if (this.state.navigator && route.component) {
                         	//console.log(this.state.navigator);
-                            return (
-                                <View
-                                    style={styles.scene}
-                                    showsVerticalScrollIndicator={false}>
-                                	<route.component title={route.title} path={route.path} navigator={this.state.navigator} socket={this.socket} {...route.props} />
-                                </View>
-                            );
+                            
+                        	if (route.path=='login') {
+                        		return(
+                        			<View
+                        			    style={styles.scene}
+                        			    showsVerticalScrollIndicator={false}>
+                        				<route.component title={route.title} path={route.path} navigator={this.state.navigator} socket={this.socket} {...route.props} onLogin={this.handleLogin}/>
+                        			</View>
+                        		);
+                        	}else{
+                            	return (
+                            	    <View
+                            	        style={styles.scene}
+                            	        showsVerticalScrollIndicator={false}>
+                            	    	<route.component title={route.title} path={route.path} navigator={this.state.navigator} socket={this.socket} {...route.props} />
+                            	    </View>
+                            	);
+                            }
                         }
                     }}
 				/>
-        
 				}
 
 			</DrawerLayoutAndroid>
