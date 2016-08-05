@@ -24,9 +24,10 @@ export default class Navigation extends Component {
         drawer.closeDrawer();
     };
 
+
+
     render() {
         const { route } = this.state;
-
         return (
             <Drawer theme='light'>
                 <Drawer.Header image={<Image source={require('./../img/nav.jpg')} />}>

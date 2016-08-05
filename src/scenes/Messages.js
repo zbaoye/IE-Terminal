@@ -10,10 +10,12 @@ export default class Messages extends React.Component {
     
     constructor(props) {
         super(props);
+        console.log(props);
         //var sqlite = new SQLite('Terminal');
         //sqlite.createUsersTable();
         //sqlite.insertUsersTable('S003','003','333333','./img.3.png');
         //sqlite.queryUsersTable();
+        console.log(global.userToken);
         this.state = {
             route: null,
             text : "",
@@ -66,10 +68,8 @@ export default class Messages extends React.Component {
                         style={styles.searchText}
                         placeholder='搜索'
                         numberOfLines={1}
-                        underlineColorAndroid={'transparent'}
-                        textAlign='center'
                     />    
-                    <IconToggle color="paperGrey900">
+                    <IconToggle color="paperGrey900" style={styles.searchIcon}>
                         <Icon
                             name="search"
                             color="paperGrey900"
@@ -101,17 +101,23 @@ const styles = {
         paddingHorizontal: 16
     },
     searchBar:{
-        
+        flex:1,
+        flexDirection: 'row',
         height: 40, 
         borderColor: 'gray', 
         borderWidth: 0
     },
     searchText:{
+        flex:1,
+        textAlign:'center',
         borderWidth:0,
         height: 40,
-        padding: 10,
+        padding: 5,
         margin:5,
         backgroundColor:'#ffffff'
-    }
+    },
+    searchIcon:{
+        backgroundColor:"#fff"
+    },
     
 };

@@ -9,6 +9,8 @@ var CrosswalkWebViewManager = NativeModules.CrosswalkWebViewManager;
 export default class Welcome extends Component {
     constructor(props) {
       super(props);
+      console.log(props);
+      //this._token=props.token;
     }
 
     static contextTypes = {
