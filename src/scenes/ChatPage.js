@@ -116,7 +116,6 @@ export default class ChatPage extends React.Component {
             	<View style={styles.footerView}>
             	  <TextInput style = {styles.inputText}
                   numberOfLines={1}
-                  underlineColorAndroid={'transparent'}
                   ref = 'textInput'
                   returnKeyType='done' //send会提交两次
                   onSubmitEditing={(event) => this.updateText(event.nativeEvent.text)}
@@ -182,12 +181,11 @@ const styles = {
 		flexDirection: 'row',
 	},
 	inputText: {
-		width:width-80,
+		width:width-60,
 		backgroundColor:'#F4F4F6',
 		height:40,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        margin: 10
-    }
+    paddingHorizontal: 16,
+    margin: 10,
+    marginRight:5
+  }
 };

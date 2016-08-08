@@ -30,7 +30,10 @@ export default class Login extends React.Component {
           console.log(response);
           response.json().then((json)=>{
             console.log(json);
-            //global.userToken = json;
+            
+            global.userToken = json.token;
+            global.username = username;
+
             const navigator = this.props.navigator;
             navigator.to('welcome');
           }).catch(function(e) {
@@ -58,7 +61,6 @@ export default class Login extends React.Component {
                   numberOfLines={1}
                   ref='username'
                   autoFocus={true}
-                  underlineColorAndroid={'transparent'}
                   textAlign='center'/>
                 <View
                      style={{height:3,backgroundColor:'#f4f4f4'}}
