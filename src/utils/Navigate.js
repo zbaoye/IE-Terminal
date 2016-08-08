@@ -40,6 +40,20 @@ export default class Navigate {
 			}
 		}
 	};
+	static getWelcomeRoute = (path,customRoutes)=>{
+		if (!routes) {
+			console.warn(`[Navigate.getInitialRoute()] No routes found. Add routes to src/routes.js.`);
+			return null;
+		}
+		if (path) {
+			return {
+				path,
+				...routes[path]
+			}
+		}else{
+			return routes['welcome'];
+		}
+	}
 
 	constructor(navigator) {
 		this.navigator = navigator;
@@ -77,7 +91,7 @@ export default class Navigate {
 			return false;
 		} else {
 			if (!this.isChild) {
-				route = Navigate.getInitialRoute();
+				route = Navigate.getWelcomeRoute();
 				this.currentRoute = route;
 				this.navigator.replace(route);
 				return true;
@@ -190,7 +204,6 @@ export default class Navigate {
 	forward = (child, title, props, savedInstanceState) => {
 		const current = this.navigator.getCurrentRoutes()[0].path;
 		const currentObject = this._getRouteObject(current);
-
 		if (!currentObject.children || !Object.keys(currentObject.children).length) {
 			console.warn(`[Navigate.forward()] No child components exists for ${current}`);
 		} else {
