@@ -50,7 +50,7 @@ export default class Messages extends React.Component {
             avatar
         } = props.tweetData;
         if(navigator) {
-            navigator.to('chatpage',username,{key:key});
+            navigator.forward('chatpage',username,{key:key});
         }
     }
 
@@ -82,9 +82,6 @@ export default class Messages extends React.Component {
                 <View>  
                     {Tweets}
                 </View>
-
-                
-
             </ScrollView>
         );
     }

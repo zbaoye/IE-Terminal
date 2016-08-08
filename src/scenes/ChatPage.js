@@ -11,6 +11,7 @@ export default class ChatPage extends React.Component {
 
 	constructor(props) {
     super(props);
+    console.log(props);
     this.socket = props.socket;
 
     this.state = {
@@ -70,7 +71,6 @@ export default class ChatPage extends React.Component {
       type:1,
       text:text
     };
-
       this.state.messages.push(newMessage);
     	this.setState({
       		curText: text,

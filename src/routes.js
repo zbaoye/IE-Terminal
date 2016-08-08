@@ -28,11 +28,17 @@ export default {
     },
     messages: {
         title: 'Messages',
-        component: Messages//require('./scenes/Avatars').default
+        component: Messages,
+        children: {
+            chatpage: {
+                title: 'ChatPage',
+                component: ChatPage
+            }
+        }
     },
     chatpage: {
         title: 'ChatPage',
-        component: ChatPage//require('./scenes/Avatars').default
+        component: ChatPage
     },
     login:{
         initialRoute: true,
@@ -49,7 +55,13 @@ export default {
     },
     contacts:{
         title:'Contacts',
-        component:Contacts
+        component:Contacts,
+        children: {
+            chatpage: {
+                title: 'ChatPage',
+                component: ChatPage 
+            }
+        }
     },
 
     buttons: {

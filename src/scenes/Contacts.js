@@ -47,7 +47,6 @@ export default class Messages extends React.Component {
     }
 
     changeScene = (path, name) => {
-        
         this.setState({
             route: path
         });
@@ -62,7 +61,7 @@ export default class Messages extends React.Component {
         } = props.contactData;
         //console.log(key);
         if(navigator) {
-            navigator.to('chatpage',username,{key:key});
+            navigator.forward('chatpage',username,{key:key});
         }
     }
 

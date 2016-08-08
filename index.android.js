@@ -74,23 +74,13 @@ class awesome extends Component {
                         if (this.state.navigator && route.component) {
                         	//console.log(this.state.navigator);
                             
-                        	if (route.path=='login') {
-                        		return(
-                        			<View
-                        			    style={styles.scene}
-                        			    showsVerticalScrollIndicator={false}>
-                        				<route.component title={route.title} path={route.path} navigator={this.state.navigator} socket={this.socket} {...route.props} onLogin={this.handleLogin}/>
-                        			</View>
-                        		);
-                        	}else{
-                            	return (
-                            	    <View
-                            	        style={styles.scene}
-                            	        showsVerticalScrollIndicator={false}>
-                            	    	<route.component title={route.title} path={route.path} navigator={this.state.navigator} socket={this.socket} {...route.props} />
-                            	    </View>
-                            	);
-                            }
+                        	return (
+                        	    <View
+                        	        style={styles.scene}
+                        	        showsVerticalScrollIndicator={false}>
+                        	    	<route.component title={route.title} path={route.path} navigator={this.state.navigator} socket={this.socket} {...route.props} />
+                        	    </View>
+                        	);
                         }
                     }}
 				/>
