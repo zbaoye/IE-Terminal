@@ -17,7 +17,12 @@ export default class Navigate {
 	getRecentC2CMsgResult = () =>{
 		return this._recentC2CMsgResult;
 	};
+	getC2CMsgResult = () =>{
+		return this._C2CMsgResult;
+	};
 
+
+	//通讯录相关操作
 	createUsersTable = () => {
 		db.sqlBatch([
 		  'DROP TABLE IF EXISTS tb_users',
@@ -61,6 +66,8 @@ export default class Navigate {
 		});
 	};
 	
+
+	//最近联系人操作
 	queryRecentC2CMsg = ()=> {
 		that = this;
 		return new Promise((resolve, reject) => {
@@ -79,7 +86,6 @@ export default class Navigate {
 			});
 		});
 	};
-
 	updateRecentC2CMsg = (userid,username,text) => {
 		db.sqlBatch([
 		  // 'DROP TABLE IF EXISTS tb_recentC2CMsg',
@@ -91,7 +97,45 @@ export default class Navigate {
 		}, function(error) {
 		  console.log('create and insert init error: ' + error.message);
 		});
+	};
 
+	//最近聊天记录相关操作
+	queryC2CMsg = (userid) =>{
+		that = this;
+		return new Promise((resolve, reject) => {
+			
+			db.readTransaction((tx) => {
+			  tx.executeSql("SELECT * FROM tb_C2CMsg_"+userid, [], function(tx, resultSet) {
+			  	//console.log(resultSet);
+			    that._C2CMsgResult = resultSet;
+			  }, function(tx, error) {
+			    console.log('SELECT error: ' + error.message);
+			  });
+			}, function(error) {
+			  console.log('SELECT transaction error: ' + error.message);
+			}, function() {
+			  console.log('SELECT transaction ok');
+			  resolve();
+			});
+		});
+	};
+	updateC2CMsg = (userid,message) => {
+		let msgId = message.key;
+		let userType= message.userType;
+		let timestamp = message.timestamp;
+		let msgType = message.msgType;
+		let msgContent = message.msgContent;
+		let tableName = 'tb_C2CMsg_'+userid;
+		
+		db.sqlBatch([
+		    //'DROP TABLE IF EXISTS '+tableName +';',
+			'CREATE TABLE IF NOT EXISTS '+tableName +' (`msgId` varchar(255) NOT NULL,`userType` varchar(1) NOT NULL,`timestamp` timestamp NOT NULL ,`msgType` varchar(10) NOT NULL,`msgContent` text NOT NULL)',
+		  	`INSERT INTO ${tableName} (msgId, userType, timestamp, msgType, msgContent) VALUES('${msgId}', ${userType}, ${timestamp}, '${msgType}', '${msgContent}');`,
+		], function() {
+		  console.log('create and insert init success');
+		}, function(error) {
+		  console.log('create and insert init error: ' + error.message);
+		});
 	};
 
 

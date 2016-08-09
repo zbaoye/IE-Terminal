@@ -13,43 +13,51 @@ export default class ChatPage extends React.Component {
 	constructor(props) {
     super(props);
     console.log(props);
-    this.sqlite = new SQLite('Terminal');
-
+    sqlite = new SQLite('Terminal');
     this.socket = props.socket;
 
     this.state = {
         curText: null,
-        keyCount:4,
-        messages:[
-        	{
-            key: 1,
-        		timestamp : 1469605874,
-        		type : 0,
-        		text : "洞拐洞拐，收到请回答！"
-        	},{
-            key:2,
-		        timestamp : 1469605974,
-        		type : 1,
-        		text : "洞幺洞幺，洞拐收到！" 
-        	},{
-            key:3,
-        		timestamp : 1469615874,
-        		type : 0,
-        		text : "洞拐洞拐，晚上吃什么？"
-        	},{
-            key:4,
-        		timestamp : 1469705874,
-        		type : 1,
-        		text : "洞幺洞幺，麻辣香锅。"
-        	}
-        ]
+        messages:[],
     };
   }
 
+  componentDidMount() {
+    this.fetchData();
+  }
+  componentWillUnmount(){
+    if(this.state.curText!=null){
+      sqlite.updateRecentC2CMsg(this.props.userid , this.props.title , this.state.curText);  
+    }
+  }
 
-	submitText(text) {
+  fetchData(){
+    sqlite.queryC2CMsg(this.props.userid).then(()=>{
+        //console.log(sqlite.getResult())
+        let result = sqlite.getC2CMsgResult();
+        let length = result.rows.length;
+        var json=[];
+        for (let i = 0 ; i<length ; i++){
+            let a = {
+                key : result.rows.item(i).msgId,
+                userType : result.rows.item(i).userType,
+                timestamp :result.rows.item(i).timestamp,
+                msgType : result.rows.item(i).msgType,
+                msgContent : result.rows.item(i).msgContent,
+            };
+            json.push(a);
+        }
+        console.log(json);
+        this.setState({
+          messages:json
+        });
+    });
+           
+    }
+
+	submitText(msgContent) {
     if (this.socket.connected) {
-      this.socket.emit('public message',text);
+      this.socket.emit('public message',msgContent);
       this.socket.on('public message',function(msg){
         console.log(msg);
       });
@@ -59,36 +67,33 @@ export default class ChatPage extends React.Component {
 
     var timestamp = Date.parse(new Date()); 
 
+    let msgId = timestamp+msgContent;
+    console.log(msgId);
     var newMessage={
-      key: this.state.keyCount+1,
+      key: msgId,
       timestamp: timestamp,
-      type:1,
-      text:text
+      userType:1,
+      msgContent:msgContent,
+      msgType:'text',
     };
-      this.state.messages.push(newMessage);
-    	this.setState({
-      		curText: text,
-          keyCount:this.state.keyCount + 1
-    	});
-    	this.refs.textInput.clear();
-  	}
+    this.state.messages.push(newMessage);
+    this.setState({
+    		curText: msgContent
+    });
+    this.refs.textInput.clear();
+    sqlite.updateC2CMsg(this.props.userid,newMessage);
 
- 
-    componentWillUnmount(){
-
-      this.sqlite.updateRecentC2CMsg(this.props.userid , this.props.title , this.state.curText);
-    
-    }
+  }
 
     render() {
     	const messages = this.state.messages.map((message) => {
-          	if(message.type == 0){
+          	if(message.userType == 0){
           		return (
           			<View style = {styles.rowLeft} key={message.key}>
           				<Image source={{ uri: 'sdfs' }} style={styles.avatar} />
           				<View style = {styles.messageLeft}>
           					<Text style ={styles.messageText}>
-          						{message.text} 
+          						{message.msgContent} 
           					</Text>
           				</View>
           			</View>
@@ -98,7 +103,7 @@ export default class ChatPage extends React.Component {
           			<View style ={styles.rowRight} key={message.key}>
           				<View style ={styles.messageRight}>
           					<Text  style ={styles.messageText}>
-          						{message.text} 
+          						{message.msgContent} 
           					</Text>
           				</View>
           				<Image source={{ uri: 'sdfsd' }} style={styles.avatar} />
@@ -150,7 +155,7 @@ const styles = {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
-		borderRadius: 4,
+		borderRadius: 10,
 	},
 	rowRight:{
 		flexDirection: 'row',
@@ -163,11 +168,13 @@ const styles = {
 		justifyContent: 'flex-end',
 		backgroundColor:'#9EE863',
 		alignItems: 'center',
-		borderRadius: 15,
+		borderRadius: 10,
 	},
 	messageText:{
 		margin:10,
-		fontSize: 18,
+		fontSize: 16,
+    color:'#000',
+    fontWeight: '100',
 	},
 	avatar: {
     	backgroundColor: 'gray',

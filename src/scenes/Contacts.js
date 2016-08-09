@@ -33,7 +33,7 @@ export default class Messages extends React.Component {
             var json=[];
             for (let i = 0 ; i<length ; i++){
                 let a = {
-                    key : result.rows.item(i).username,
+                    key : result.rows.item(i).id,
                     username : result.rows.item(i).username,
                     avatar : result.rows.item(i).avatar,
                 };
@@ -46,12 +46,6 @@ export default class Messages extends React.Component {
            
     }
 
-    changeScene = (path, name) => {
-        this.setState({
-            route: path
-        });
-        navigator.to(path, name);
-    };
 
     goToChat(props) {
         const navigator = props.navigator;
@@ -61,7 +55,7 @@ export default class Messages extends React.Component {
         } = props.contactData;
         //console.log(key);
         if(navigator) {
-            navigator.forward('chatpage',username,{key:key});
+            navigator.forward('chatpage',username,{userid:key});
         }
     }
 
@@ -114,7 +108,6 @@ const styles = {
         paddingHorizontal: 16
     },
     searchBar:{
-        
         height: 40, 
         borderColor: 'gray', 
         borderWidth: 0
