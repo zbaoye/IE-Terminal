@@ -29,7 +29,7 @@ class Contact extends React.Component {
           <Image source={require('./../img/avatars/1.png')} style={styles.avatar} />
           <View style={styles.rightContainer}>
             <View style={styles.userContainer}>
-              <Text style={styles.name}>{username}</Text>
+              <Text style={styles.username}>{username}</Text>
             </View>
           </View>
         </View>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#DAE6F0',
     paddingTop: 4,
-    paddingBottom: 10,
+    paddingBottom: 4,
   },
   avatar: {
     backgroundColor: 'gray',
@@ -65,21 +65,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   username: {
-    marginLeft: 4,
-    fontSize: 13,
-    color: '#8999a5',
+    marginLeft: 0,
+    color: '#000',
     marginTop: 2,
-  },
-  name: {
-    fontWeight: '600',
+    fontWeight: '300',
     fontSize: 15,
+
   },
+
   text: {
     marginTop: 5,
   },
   rightContainer: {
     flex: 1,
-    padding: 10,
+    padding: 13,
   },
 });
 

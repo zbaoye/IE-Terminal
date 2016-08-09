@@ -95,8 +95,9 @@ const styles = {
     },
     searchBar:{
         flex:1,
+        alignItems: 'center',
         flexDirection: 'row',
-        height: 40, 
+        height: 30, 
         borderColor: 'gray', 
         borderWidth: 0
     },

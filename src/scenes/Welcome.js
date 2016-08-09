@@ -31,9 +31,9 @@ export default class Welcome extends Component {
             <CrosswalkWebView
               ref="webViewAndroidSample"
               javaScriptEnabled={true}
-              geolocationEnabled={false}
+              geolocationEnabled={true}
               builtInZoomControls={false}
-              url="http://10.10.10.115/GeoVisOL3/index.html" // or use the source(object) attribute...
+              url="http://ditu.amap.com" // or use the source(object) attribute...
               style={styles.containerWebView} 
               //injectedJavaScript = { alert('hello') }
             />

@@ -31,7 +31,7 @@ class Tweet extends React.Component {
           <Image source={require('./../img/avatars/1.png')} style={styles.avatar} />
           <View style={styles.rightContainer}>
             <View style={styles.userContainer}>
-              <Text style={styles.name}>{username}</Text>
+              <Text style={styles.username}>{username}</Text>
             </View>
              <Text style={styles.text}>{text}</Text>
           </View>
@@ -53,34 +53,38 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#DAE6F0',
     paddingTop: 4,
-    paddingBottom: 10,
+    paddingBottom: 5,
+    height:60,
   },
   avatar: {
     backgroundColor: 'gray',
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
     marginLeft: 10,
     borderRadius: 4,
   },
   userContainer: {
     flexDirection: 'row',
+    paddingTop:0,
+    marginTop:0,
   },
   username: {
-    marginLeft: 4,
-    fontSize: 13,
-    color: '#8999a5',
-    marginTop: 2,
-  },
-  name: {
-    fontWeight: '600',
+    marginLeft: 0,
+    color: '#000',
+    marginTop: 0,
+    paddingTop:0,
+    fontWeight: '400',
     fontSize: 15,
   },
   text: {
-    marginTop: 5,
+    marginTop: 3,
+    fontWeight: '100',
+    fontSize: 13,
+
   },
   rightContainer: {
     flex: 1,
-    padding: 10,
+    paddingLeft: 14,
   },
 });
 
