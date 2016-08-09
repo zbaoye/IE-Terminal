@@ -19,10 +19,11 @@ class Tweet extends React.Component {
 
   render() {
     const {
-      key,
+      userid,
       username,
+      text,
       avatar,
-    } = this.props.tweetData;
+    } = this.props.userData;
 
     return (
       <TouchableHighlight underlayColor="transparent" onPress={this.goToChat}>
@@ -32,6 +33,7 @@ class Tweet extends React.Component {
             <View style={styles.userContainer}>
               <Text style={styles.name}>{username}</Text>
             </View>
+             <Text style={styles.text}>{text}</Text>
           </View>
         </View>
       </TouchableHighlight>

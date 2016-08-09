@@ -61,13 +61,6 @@ export default class Navigation extends Component {
                         onPress: () => this.changeScene('messages'),
                         onLongPress: () => this.changeScene('messages')
                     }, {
-                        icon: 'check-box',
-                        value: '登录',
-                        label: '10',
-                        active: route === 'login',
-                        onPress: () => this.changeScene('login'),
-                        onLongPress: () => this.changeScene('login')
-                    }, {
                         icon: 'label',
                         value: '信息识别',
                         label: '10',

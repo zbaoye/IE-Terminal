@@ -11,9 +11,12 @@ export default class Navigate {
 		db = SQLite.openDatabase(dbname+".db", "1.0", "Demo", -1);
 	}
 
-	getResult = () =>{
-		return this._result;
-	}
+	getUserTbleResult = () =>{
+		return this._userTbleResult;
+	};
+	getRecentC2CMsgResult = () =>{
+		return this._recentC2CMsgResult;
+	};
 
 	createUsersTable = () => {
 		db.sqlBatch([
@@ -45,7 +48,26 @@ export default class Navigate {
 			db.readTransaction(function(tx) {
 			  tx.executeSql("SELECT * FROM `tb_users` ", [], function(tx, resultSet) {
 			    console.log(resultSet);
-			    that._result = resultSet;
+			    that._userTbleResult = resultSet;
+			  }, function(tx, error) {
+			    console.log('SELECT error: ' + error.message);
+			  });
+			}, function(error) {
+			  console.log('SELECT transaction error: ' + error.message);
+			}, function() {
+			  console.log('SELECT transaction ok');
+			  resolve();
+			});
+		});
+	};
+	
+	queryRecentC2CMsg = ()=> {
+		that = this;
+		return new Promise((resolve, reject) => {
+			db.readTransaction(function(tx) {
+			  tx.executeSql("SELECT * FROM `tb_recentC2CMsg` ", [], function(tx, resultSet) {
+			  	//console.log(resultSet);
+			    that._recentC2CMsgResult = resultSet;
 			  }, function(tx, error) {
 			    console.log('SELECT error: ' + error.message);
 			  });
@@ -58,22 +80,19 @@ export default class Navigate {
 		});
 	};
 
+	updateRecentC2CMsg = (userid,username,text) => {
+		db.sqlBatch([
+		  // 'DROP TABLE IF EXISTS tb_recentC2CMsg',
+		  'CREATE TABLE IF NOT EXISTS tb_recentC2CMsg (`userid` varchar(50) NOT NULL, `username` varchar(255) NOT NULL, `text` varchar(255))',
+		  [ 'DELETE FROM `tb_recentC2CMsg` WHERE userid=?',[userid]],
+		  [ 'INSERT INTO `tb_recentC2CMsg` (`userid`, `username`, `text`) VALUES(?, ?, ?);', [userid,username,text] ],
+		], function() {
+		  console.log('create and insert init success');
+		}, function(error) {
+		  console.log('create and insert init error: ' + error.message);
+		});
 
-
-	// _queryUsersTable = () =>{
-	// 	db.readTransaction(function(tx) {
-	// 	  tx.executeSql("SELECT * FROM `tb_users` ", [], function(tx, resultSet) {
-	// 	    //console.log(resultSet);
-	// 	    return resultSet;
-	// 	  }, function(tx, error) {
-	// 	    console.log('SELECT error: ' + error.message);
-	// 	  });
-	// 	}, function(error) {
-	// 	  console.log('SELECT transaction error: ' + error.message);
-	// 	}, function() {
-	// 	  console.log('SELECT transaction ok');
-	// 	});
-	// };
+	};
 
 
 

@@ -65,15 +65,16 @@ class awesome extends Component {
 				<Navigator
 					initialRoute={Navigate.getInitialRoute()}
 					navigationBar={<Toolbar onIconPress={drawer.openDrawer} />}
-					configureScene={() => {
-                            return Navigator.SceneConfigs.FadeAndroid;
-                        }}
+					configureScene={(route) => {
+						if (route.path=='messages.chatpage'|| route.path=='contacts.chatpage') {
+							return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight;
+						}else{
+                            return Navigator.SceneConfigs.FloatFromBottom;
+						}
+                    }}
 					ref={(navigator) => { !this.state.navigator ? this.setNavigator(navigator) : null }}
 					renderScene={(route) => {
-                        //console.log(route);
                         if (this.state.navigator && route.component) {
-                        	//console.log(this.state.navigator);
-                            
                         	return (
                         	    <View
                         	        style={styles.scene}

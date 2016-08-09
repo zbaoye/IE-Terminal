@@ -36,10 +36,6 @@ export default {
             }
         }
     },
-    chatpage: {
-        title: 'ChatPage',
-        component: ChatPage
-    },
     login:{
         initialRoute: true,
         title:'Login',

@@ -4,61 +4,57 @@ import { Button, Avatar,  COLOR ,IconToggle,Icon } from 'react-native-material-d
 import Tweet from '../components/Tweet';
 import ChatPage from './ChatPage'
 import Navigate from '../utils/Navigate';
-//import SQLite from '../utils/sqlite';
+import SQLite from '../utils/sqlite';
 
 export default class Messages extends React.Component {
     
     constructor(props) {
         super(props);
-        console.log(props);
-        //var sqlite = new SQLite('Terminal');
-        //sqlite.createUsersTable();
-        //sqlite.insertUsersTable('S003','003','333333','./img.3.png');
-        //sqlite.queryUsersTable();
-        console.log(global.userToken);
+        sqlite = new SQLite('Terminal');
+        
+        sqlite.queryRecentC2CMsg().then(()=>{
+            let result = sqlite.getRecentC2CMsgResult();
+            let length = result.rows.length;
+            var json=[];
+            for (let i = length-1 ; i>-1 ; i--){
+                let a = {
+                    userid : result.rows.item(i).userid,
+                    username : result.rows.item(i).username,
+                    text : result.rows.item(i).text,
+                };
+                json.push(a);
+            }
+            this.setState({
+                recentC2CMsg : json,
+            });
+        });
+        console.log('userToken = '+global.userToken);
         this.state = {
             route: null,
             text : "",
-            tweets: [
-              {
-                key: 1,
-                username: '导调员1',
-                avatar: './../img/avatars/1.png',
-              },
-              {
-                key: 2,
-                username: '导调员7',
-                avatar: './../img/avatars/2.png',
-              },
-            ],
+            recentC2CMsg: [],
         };
     }
 
-    changeScene = (path, name) => {
-        
-        this.setState({
-            route: path
-        });
-        navigator.to(path, name);
-    };
-
     goToChat(props) {
+
         const navigator = props.navigator;
         const {
-            key,
+            userid,
             username,
             avatar
-        } = props.tweetData;
+        } = props.userData;
         if(navigator) {
-            navigator.forward('chatpage',username,{key:key});
+            navigator.forward('chatpage',username,{userid:userid});
         }
     }
 
     render() {  
         
         const  navigator  = this.props.navigator;
-        const Tweets = this.state.tweets.map((tweetData) => {
-          return <Tweet key={tweetData.key} tweetData={tweetData} navigator={navigator} goToChat={this.goToChat} />;
+
+        const recentC2CMsgs = this.state.recentC2CMsg.map((userData) => {
+          return <Tweet key={userData.userid} userData={userData} navigator={navigator} goToChat={this.goToChat} />;
         });
 
         return (
@@ -80,7 +76,7 @@ export default class Messages extends React.Component {
                     style={{height:2,backgroundColor:'#f4f4f4'}}
                 />
                 <View>  
-                    {Tweets}
+                    {recentC2CMsgs}
                 </View>
             </ScrollView>
         );

@@ -4,6 +4,7 @@ import { Avatar, COLOR } from 'react-native-material-design';
 import ReactNative from 'react-native';
 import '../utils/UserAgent';
 import io from 'socket.io-client/socket.io';
+import SQLite from '../utils/sqlite';
 
 const {height, width} = Dimensions.get('window');
 
@@ -12,6 +13,8 @@ export default class ChatPage extends React.Component {
 	constructor(props) {
     super(props);
     console.log(props);
+    this.sqlite = new SQLite('Terminal');
+
     this.socket = props.socket;
 
     this.state = {
@@ -43,16 +46,8 @@ export default class ChatPage extends React.Component {
     };
   }
 
-  // login(){
-  //   {
-  //     id:
-  //     password:
-  //   }
-  // }
 
-
-	updateText(text) {
-    
+	submitText(text) {
     if (this.socket.connected) {
       this.socket.emit('public message',text);
       this.socket.on('public message',function(msg){
@@ -61,7 +56,6 @@ export default class ChatPage extends React.Component {
     }else{
       console.log('无网络');
     }
-
 
     var timestamp = Date.parse(new Date()); 
 
@@ -78,11 +72,15 @@ export default class ChatPage extends React.Component {
     	});
     	this.refs.textInput.clear();
   	}
-    render() {
 
-      //var ws = new WebSocket('ws://10.10.10.16:3002');
-      //console.log(ws);
-    	//console.log(this.state.messages);
+ 
+    componentWillUnmount(){
+
+      this.sqlite.updateRecentC2CMsg(this.props.userid , this.props.title , this.state.curText);
+    
+    }
+
+    render() {
     	const messages = this.state.messages.map((message) => {
           	if(message.type == 0){
           		return (
@@ -118,7 +116,7 @@ export default class ChatPage extends React.Component {
                   numberOfLines={1}
                   ref = 'textInput'
                   returnKeyType='done' //send会提交两次
-                  onSubmitEditing={(event) => this.updateText(event.nativeEvent.text)}
+                  onSubmitEditing={(event) => this.submitText(event.nativeEvent.text)}
                 /> 
                 <View style={{marginTop:10,width:40,height:40}}>
             	    <Avatar icon="add" backgroundColor="paperRed"/>

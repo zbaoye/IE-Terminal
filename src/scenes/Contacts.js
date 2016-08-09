@@ -11,8 +11,8 @@ export default class Messages extends React.Component {
     constructor(props) {
         super(props);
         sqlite = new SQLite('Terminal');
-        sqlite.createUsersTable();
-        sqlite.insertUsersTable('S003','导调员003','333333','./img.3.png');
+        //sqlite.createUsersTable();
+        //sqlite.insertUsersTable('S003','导调员003','333333','./img.3.png');
         //var resultSet = sqlite._queryUsersTable();
         this.state = {
             route: null,
@@ -25,10 +25,10 @@ export default class Messages extends React.Component {
     }
 
     fetchData(){
-        that = this;
+    
         sqlite.queryUsersTable().then(()=>{
             //console.log(sqlite.getResult())
-            let result = sqlite.getResult();
+            let result = sqlite.getUserTbleResult();
             let length = result.rows.length;
             var json=[];
             for (let i = 0 ; i<length ; i++){
