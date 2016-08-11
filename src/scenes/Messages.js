@@ -1,5 +1,5 @@
 import React, { Component , PropTypes} from 'react';
-import { ScrollView, View, Image ,TextInput,Navigator} from 'react-native';
+import { ScrollView, View, Image ,TextInput,Navigator,ToastAndroid} from 'react-native';
 import { Button, Avatar,  COLOR ,IconToggle,Icon } from 'react-native-material-design';
 import Tweet from '../components/Tweet';
 import ChatPage from './ChatPage'

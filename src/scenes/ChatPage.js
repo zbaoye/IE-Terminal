@@ -5,6 +5,10 @@ import ReactNative from 'react-native';
 import '../utils/UserAgent';
 import io from 'socket.io-client/socket.io';
 import SQLite from '../utils/sqlite';
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ChatStore from '../stores/ChatStore';
+
 
 const {height, width} = Dimensions.get('window');
 
@@ -12,24 +16,39 @@ export default class ChatPage extends React.Component {
 
 	constructor(props) {
     super(props);
-    console.log(props);
-    sqlite = new SQLite('Terminal');
-    this.socket = props.socket;
-
     this.state = {
         curText: null,
         messages:[],
     };
+    //console.log(props);
+    sqlite = new SQLite('Terminal');
+    
+    this.socket = props.socket;
+
+
   }
 
   componentDidMount() {
+
     this.fetchData();
+    ChatStore.listen(this.handleChatStore);
   }
+
   componentWillUnmount(){
+    ChatStore.listen(this.handleChatStore);
     if(this.state.curText!=null){
       sqlite.updateRecentC2CMsg(this.props.userid , this.props.title , this.state.curText);  
     }
   }
+
+  handleChatStore=(store)=>{
+    this.state.messages.push(store.newMessage);
+    this.setState({
+      curText: store.newMessage.msgContent
+    });
+    sqlite.updateC2CMsg(this.props.userid,store.newMessage);
+  }
+
 
   fetchData(){
     sqlite.queryC2CMsg(this.props.userid).then(()=>{
@@ -52,24 +71,17 @@ export default class ChatPage extends React.Component {
           messages:json
         });
     });
-           
-    }
+  }
 
-	submitText(msgContent) {
-    if (this.socket.connected) {
-      this.socket.emit('public message',msgContent);
-      this.socket.on('public message',function(msg){
-        console.log(msg);
-      });
-    }else{
-      console.log('无网络');
-    }
+
+	handleSubmitText(msgContent) {
 
     var timestamp = Date.parse(new Date()); 
-
     let msgId = timestamp+msgContent;
     console.log(msgId);
     var newMessage={
+      fromUserId: global.username,
+      toUserId: this.props.userid,
       key: msgId,
       timestamp: timestamp,
       userType:1,
@@ -82,7 +94,17 @@ export default class ChatPage extends React.Component {
     });
     this.refs.textInput.clear();
     sqlite.updateC2CMsg(this.props.userid,newMessage);
+    this.submitToServers(newMessage);
+    console.log(this.refs.scrollContent);
+    //this.refs.scrollContent.scrollTo({y: 100});
+  }
 
+  submitToServers(newMessage){
+    if (this.socket.connected) {
+      this.socket.emit('private message',this.props.userid,newMessage);
+    }else{
+      console.log('无网络');
+    }
   }
 
     render() {
@@ -113,7 +135,7 @@ export default class ChatPage extends React.Component {
         });
         return (
         		<ScrollView ref='scroll' scrollEnabled={false} style={{backgroundColor:'#EBEBEB'}}>
-            	<ScrollView style = {styles.scrollContent}>
+            	<ScrollView style = {styles.scrollContent} ref='scrollContent'>
             	   	{messages}
             	</ScrollView>
             	<View style={styles.footerView}>
@@ -121,13 +143,22 @@ export default class ChatPage extends React.Component {
                   numberOfLines={1}
                   ref = 'textInput'
                   returnKeyType='done' //send会提交两次
-                  onSubmitEditing={(event) => this.submitText(event.nativeEvent.text)}
+                  onSubmitEditing={(event) => this.handleSubmitText(event.nativeEvent.text)}
                 /> 
-                <View style={{marginTop:10,width:40,height:40}}>
-            	    <Avatar icon="add" backgroundColor="paperRed"/>
-            	  </View>  
+                
             	</View>
+              
+                  <ActionButton  buttonColor="rgba(63,159,107,1)" offsetX={1} offsetY={5}>
+                    <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("new task tapped!")}>
+                      <Icon name="md-create"  style={styles.actionButtonIcon} />
+                    </ActionButton.Item>
+                    <ActionButton.Item buttonColor='#3498db' title="My Notifications" onPress={() => {}}>
+                      <Icon name="md-notifications-off"  style={styles.actionButtonIcon} />
+                    </ActionButton.Item>
+                  </ActionButton>
+              
             </ScrollView>
+
             
         );
     }
@@ -192,5 +223,10 @@ const styles = {
     paddingHorizontal: 16,
     margin: 10,
     marginRight:5
-  }
+  },
+  actionButtonIcon: {
+    fontSize: 20,
+    height: 22,
+    color: 'black',
+  },
 };

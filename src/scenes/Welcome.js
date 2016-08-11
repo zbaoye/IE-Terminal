@@ -33,7 +33,7 @@ export default class Welcome extends Component {
               javaScriptEnabled={true}
               geolocationEnabled={true}
               builtInZoomControls={false}
-              url="http://ditu.amap.com" // or use the source(object) attribute...
+              url="http://10.10.10.138/GeoVisOL3/" // or use the source(object) attribute...
               style={styles.containerWebView} 
               //injectedJavaScript = { alert('hello') }
             />

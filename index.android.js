@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { AppRegistry, Navigator, StyleSheet, DrawerLayoutAndroid, ScrollView, View, Text } from 'react-native';
+import { AppRegistry, Navigator, StyleSheet, DrawerLayoutAndroid, ScrollView, View, Text,ToastAndroid } from 'react-native';
 import Navigate from './src/utils/Navigate';
 import { Toolbar } from './src/components';
 import Navigation from './src/scenes/Navigation';
 import Welcome from './src/scenes/Welcome';
+import './src/utils/UserAgent';
 import io from 'socket.io-client/socket.io';
-import CrosswalkWebView from 'react-native-webview-crosswalk';
+
+
+import ChatActions from './src/actions/ChatActions';
+
 class awesome extends Component {
 
 	static childContextTypes = {
@@ -15,13 +19,16 @@ class awesome extends Component {
 
 	constructor(props) {
 		super(props);
-		this.socket = io('10.10.10.124:3000', {jsonp: false});
+		
+
 		this.state = {
 			drawer: null,
 			navigator: null,
 			token: null
 		};
 	}
+
+
 
 	getChildContext = () => {
 		return {
@@ -42,6 +49,25 @@ class awesome extends Component {
 		});
 	};
 
+	componentDidMount() {
+		//ToastAndroid.show('componentWillMount', ToastAndroid.SHORT)
+		that=this;
+		this.socket = io('10.10.10.138:3000', {transports: ['websocket']});
+		ToastAndroid.show(this.socket.connected.toString(), ToastAndroid.SHORT);
+		console.log(this.socket);
+		this.socket.on('private message',function(msg){
+			let toUserId = msg.toUserId;
+			msg.userType=0;
+		    //sqlite.updateC2CMsg("S003",msg);//暂存在S003数据库
+		    ChatActions.updateMsg(msg);
+		    console.log(msg);
+		});
+
+	}
+
+	componentWillUnmount() {
+		this.socket.emit('disconnect');
+	}
 
 	render() {
 		const { drawer, navigator } = this.state;

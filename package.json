@@ -11,7 +11,7 @@
     "react": "15.2.1",
     "react-addons-pure-render-mixin": "15.2.1",
     "react-native": "0.28.0",
-    "react-native-action-button": "1.0.3",
+    "react-native-action-button": "^1.0.3",
     "react-native-android-statusbar": "0.1.2",
     "react-native-material-design": "0.3.6",
     "react-native-material-kit": "0.3.2",

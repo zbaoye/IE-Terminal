@@ -15,8 +15,13 @@ export default class Login extends React.Component {
         var password = this.refs.password._lastNativeText;
         this.refs.username.clear();
         this.refs.password.clear();
-
-        fetch('http://10.10.10.124:3000/index', {
+        
+        var json = JSON.stringify({
+              id: username,
+              password: password,
+            });
+        console.log(json);
+        fetch('http://10.10.10.138:3000/index', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -28,9 +33,9 @@ export default class Login extends React.Component {
             })
         }).then((response)=>{
           console.log(response);
+
           response.json().then((json)=>{
-            console.log(json);
-            
+            //console.log(json);
             global.userToken = json.token;
             global.username = username;
 
@@ -38,11 +43,11 @@ export default class Login extends React.Component {
             navigator.to('welcome');
           }).catch(function(e) {
             console.log('error');
-            ToastAndroid.show('数据解析失败', ToastAndroid.SHORT)
+            ToastAndroid.show('数据解析失败', ToastAndroid.SHORT);
           });
         }).catch(function(e) {
           console.log('error');
-          ToastAndroid.show('登录失败，请稍后重试', ToastAndroid.SHORT)
+          ToastAndroid.show('登录失败，请稍后重试', ToastAndroid.SHORT);
         });
     }
     togoRegister(){
