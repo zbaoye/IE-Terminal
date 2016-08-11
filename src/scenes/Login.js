@@ -8,9 +8,11 @@ export default class Login extends React.Component {
     constructor(props) {
       super(props);
       //console.log(props);
+      this.socket = props.socket;
     }
 
     login(){
+        that=this;
         var username = this.refs.username._lastNativeText;
         var password = this.refs.password._lastNativeText;
         this.refs.username.clear();
@@ -21,34 +23,47 @@ export default class Login extends React.Component {
               password: password,
             });
         console.log(json);
-        fetch('http://10.10.10.138:3000/index', {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              id: username,
-              password: password,
-            })
-        }).then((response)=>{
-          console.log(response);
-
-          response.json().then((json)=>{
-            //console.log(json);
-            global.userToken = json.token;
+        console.log(this.socket);
+        this.socket.emit('checkLogin',username,password);
+        this.socket.on('checkLogin', function(result) {
+          if (result!='success') {
+            ToastAndroid.show(result, ToastAndroid.SHORT);
+          }else{
+            global.userToken = result;
             global.username = username;
-
-            const navigator = this.props.navigator;
+            ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+            const navigator = that.props.navigator;
             navigator.to('welcome');
-          }).catch(function(e) {
-            console.log('error');
-            ToastAndroid.show('数据解析失败', ToastAndroid.SHORT);
-          });
-        }).catch(function(e) {
-          console.log('error');
-          ToastAndroid.show('登录失败，请稍后重试', ToastAndroid.SHORT);
+          }
         });
+        // fetch('http://10.10.10.138:3000/index', {
+        //     method: 'POST',
+        //     headers: {
+        //       'Accept': 'application/json',
+        //       'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //       id: username,
+        //       password: password,
+        //     })
+        // }).then((response)=>{
+        //   console.log(response);
+
+        //   response.json().then((json)=>{
+        //     //console.log(json);
+        //     global.userToken = json.token;
+        //     global.username = username;
+
+        //     const navigator = this.props.navigator;
+        //     navigator.to('welcome');
+        //   }).catch(function(e) {
+        //     console.log('error');
+        //     ToastAndroid.show('数据解析失败', ToastAndroid.SHORT);
+        //   });
+        // }).catch(function(e) {
+        //   console.log('error');
+        //   ToastAndroid.show('登录失败，请稍后重试', ToastAndroid.SHORT);
+        // });
     }
     togoRegister(){
         const navigator = this.props.navigator;

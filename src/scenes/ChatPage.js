@@ -25,7 +25,6 @@ export default class ChatPage extends React.Component {
     
     this.socket = props.socket;
 
-
   }
 
   componentDidMount() {
@@ -86,7 +85,8 @@ export default class ChatPage extends React.Component {
 
     var timestamp = Date.parse(new Date()); 
     let msgId = timestamp+msgContent;
-    console.log(msgId);
+
+    console.log("global.username: "+global.username);
     var newMessage={
       fromUserId: global.username,
       toUserId: this.props.userid,
@@ -109,7 +109,7 @@ export default class ChatPage extends React.Component {
 
   submitToServers(newMessage){
     if (this.socket.connected) {
-      this.socket.emit('private message',this.props.userid,newMessage);
+      this.socket.emit('private message',newMessage);
     }else{
       console.log('无网络');
     }

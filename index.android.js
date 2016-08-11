@@ -51,12 +51,12 @@ class awesome extends Component {
 
 	componentDidMount() {
 		that=this;
-		this.socket = io('10.10.10.138:3000', {jsonp: false});
+		this.socket = io('10.10.10.109:3000', {jsonp: false});
 		console.log(this.socket);
 		this.socket.on('private message',function(msg){
 			let fromUserId = msg.fromUserId;
 			console.log(fromUserId);
-		    that.sqlite.updateC2CMsg(fromUserId , msg);
+		    sqlite.updateC2CMsg(fromUserId , msg);
 		    ChatActions.updateMsg(msg);
 		    //console.log(msg);
 		});
