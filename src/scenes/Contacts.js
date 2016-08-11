@@ -53,7 +53,6 @@ export default class Messages extends React.Component {
             key,
             username,
         } = props.contactData;
-        //console.log(key);
         if(navigator) {
             navigator.forward('chatpage',username,{userid:key});
         }

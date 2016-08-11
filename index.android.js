@@ -6,7 +6,7 @@ import Navigation from './src/scenes/Navigation';
 import Welcome from './src/scenes/Welcome';
 import './src/utils/UserAgent';
 import io from 'socket.io-client/socket.io';
-
+import SQLite from './src/utils/sqlite';
 
 import ChatActions from './src/actions/ChatActions';
 
@@ -20,7 +20,7 @@ class awesome extends Component {
 	constructor(props) {
 		super(props);
 		
-
+		this.sqlite = new SQLite('Terminal');
 		this.state = {
 			drawer: null,
 			navigator: null,
@@ -50,19 +50,16 @@ class awesome extends Component {
 	};
 
 	componentDidMount() {
-		//ToastAndroid.show('componentWillMount', ToastAndroid.SHORT)
 		that=this;
-		this.socket = io('10.10.10.138:3000', {transports: ['websocket']});
-		ToastAndroid.show(this.socket.connected.toString(), ToastAndroid.SHORT);
+		this.socket = io('10.10.10.138:3000', {jsonp: false});
 		console.log(this.socket);
 		this.socket.on('private message',function(msg){
-			let toUserId = msg.toUserId;
-			msg.userType=0;
-		    //sqlite.updateC2CMsg("S003",msg);//暂存在S003数据库
+			let fromUserId = msg.fromUserId;
+			console.log(fromUserId);
+		    that.sqlite.updateC2CMsg(fromUserId , msg);
 		    ChatActions.updateMsg(msg);
-		    console.log(msg);
+		    //console.log(msg);
 		});
-
 	}
 
 	componentWillUnmount() {

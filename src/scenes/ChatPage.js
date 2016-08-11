@@ -35,18 +35,26 @@ export default class ChatPage extends React.Component {
   }
 
   componentWillUnmount(){
-    ChatStore.listen(this.handleChatStore);
+    ChatStore.unlisten(this.handleChatStore);
+    console.log('componentWillUnmount');
     if(this.state.curText!=null){
       sqlite.updateRecentC2CMsg(this.props.userid , this.props.title , this.state.curText);  
     }
   }
 
   handleChatStore=(store)=>{
-    this.state.messages.push(store.newMessage);
-    this.setState({
-      curText: store.newMessage.msgContent
-    });
-    sqlite.updateC2CMsg(this.props.userid,store.newMessage);
+    if (this.props.navigator.currentRoute.path=='messages.chatpage'|| this.props.navigator.currentRoute.path=='contacts.chatpage' && this.props.userid==store.newMessage.toUserId){
+      this.state.messages.push(store.newMessage);
+      console.log(this);
+      this.setState({
+        curText: store.newMessage.msgContent,
+
+      });
+      
+    }else{
+      //sqlite.updateC2CMsg(store.newMessage.toUserId , store.newMessage);
+    }
+    
   }
 
 
@@ -95,7 +103,7 @@ export default class ChatPage extends React.Component {
     this.refs.textInput.clear();
     sqlite.updateC2CMsg(this.props.userid,newMessage);
     this.submitToServers(newMessage);
-    console.log(this.refs.scrollContent);
+    //console.log(this.refs.scrollContent);
     //this.refs.scrollContent.scrollTo({y: 100});
   }
 
@@ -147,12 +155,11 @@ export default class ChatPage extends React.Component {
                 /> 
                 
             	</View>
-              
-                  <ActionButton  buttonColor="rgba(63,159,107,1)" offsetX={1} offsetY={5}>
-                    <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("new task tapped!")}>
+                  <ActionButton  buttonColor="rgba(63,159,107,1)"  key={1} offsetX={1} offsetY={5}>
+                    <ActionButton.Item buttonColor='#9b59b6' key={1} title="New Task" onPress={() => console.log("new task tapped!")}>
                       <Icon name="md-create"  style={styles.actionButtonIcon} />
                     </ActionButton.Item>
-                    <ActionButton.Item buttonColor='#3498db' title="My Notifications" onPress={() => {}}>
+                    <ActionButton.Item buttonColor='#3498db' key={2} title="My Notifications" onPress={() => {}}>
                       <Icon name="md-notifications-off"  style={styles.actionButtonIcon} />
                     </ActionButton.Item>
                   </ActionButton>

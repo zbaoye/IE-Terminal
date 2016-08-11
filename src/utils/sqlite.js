@@ -88,7 +88,7 @@ export default class Navigate {
 	};
 	updateRecentC2CMsg = (userid,username,text) => {
 		db.sqlBatch([
-		  // 'DROP TABLE IF EXISTS tb_recentC2CMsg',
+		  //'DROP TABLE IF EXISTS tb_recentC2CMsg',
 		  'CREATE TABLE IF NOT EXISTS tb_recentC2CMsg (`userid` varchar(50) NOT NULL, `username` varchar(255) NOT NULL, `text` varchar(255))',
 		  [ 'DELETE FROM `tb_recentC2CMsg` WHERE userid=?',[userid]],
 		  [ 'INSERT INTO `tb_recentC2CMsg` (`userid`, `username`, `text`) VALUES(?, ?, ?);', [userid,username,text] ],

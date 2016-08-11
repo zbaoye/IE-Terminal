@@ -3,7 +3,6 @@ import alt from '../alt';
 class ChatActions {
 
     updateMsg(msg) {
-       
         return msg;
     }
 
